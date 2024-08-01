@@ -10,7 +10,7 @@
   <!-- Mieruca Optimize Tag -->
   <script type="text/javascript" id="mierucaOptimizejs">
     window.__optimizeid = window.__optimizeid || [];
-    __optimizeid.push([1150133615]);
+    __optimizeid.push([1842686338]);
     (function () {
       var fjs = document.createElement("script");
       fjs.type = "text/javascript";
@@ -18,7 +18,7 @@
       fjs.id = "fjssync";
       var timestamp = new Date();
       fjs.src =
-        "https://dev.opt.mieru-ca.com/service/js/mieruca-optimize-dev.js?v=" +
+        "https://opt.mieru-ca.com/service/js/mieruca-optimize.js?v=" +
         timestamp.getTime();
       var x = document.getElementsByTagName("script")[0];
       x.parentNode.insertBefore(fjs, x);
