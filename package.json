@@ -1,7 +1,7 @@
 {
   "name": "@kobayashik-faber_github_io/monorepo",
   "version": "0.0.1",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "scripts": {
     "prepare": "husky",
     "test": "echo test"
