@@ -16,6 +16,7 @@
         "nrwl.angular-console",
         "oderwat.indent-rainbow",
         "streetsidesoftware.code-spell-checker",
+        "svelte.svelte-vscode",
         "vitest.explorer"
       ]
     }
