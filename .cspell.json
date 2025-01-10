@@ -3,6 +3,7 @@
   "version": "0.2",
   "words": [],
   "ignorePaths": [
+    ".devcontainer/**",
     "package.json",
     "pnpm-lock.yaml"
   ]
