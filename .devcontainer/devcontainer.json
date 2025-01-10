@@ -1,0 +1,24 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "shutdownAction": "stopContainer",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "chakra-ui.panda-css-vscode",
+        "dbaeumer.vscode-eslint",
+        "dotenv.dotenv-vscode",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "gruntfuggly.todo-tree",
+        "nrwl.angular-console",
+        "oderwat.indent-rainbow",
+        "streetsidesoftware.code-spell-checker",
+        "vitest.explorer"
+      ]
+    }
+  },
+  "postCreateCommand": "pnpm install --frozen-lockfile"
+}
