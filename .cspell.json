@@ -9,5 +9,8 @@
     ".gitignore",
     "package.json",
     "pnpm-lock.yaml"
+  ],
+  "import": [
+    "@cspell/dict-svelte/cspell-ext.json"
   ]
 }
