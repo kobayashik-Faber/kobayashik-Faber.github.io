@@ -50,6 +50,12 @@ importers:
       '@eslint/compat':
         specifier: ^1.2.3
         version: 1.2.4(eslint@9.17.0)
+      '@fontsource-variable/noto-sans-jp':
+        specifier: 5.1.1
+        version: 5.1.1
+      '@fontsource/oswald':
+        specifier: 5.1.1
+        version: 5.1.1
       '@pandacss/dev':
         specifier: 0.51.1
         version: 0.51.1(typescript@5.7.2)
@@ -1190,6 +1196,12 @@ packages:
   '@eslint/plugin-kit@0.2.4':
     resolution: {integrity: sha512-zSkKow6H5Kdm0ZUQUB2kV5JIXqoG0+uH5YADhaEHswm664N9Db8dXSi0nMJpacpMf+MyyglF1vnZohpEg5yUtg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@fontsource-variable/noto-sans-jp@5.1.1':
+    resolution: {integrity: sha512-fOuEtA3b+3M1nJJycPx8JQyKUTz10nTUOQSusC6gBtq6ff22vl59c3NSg3ZM5/QsO3y5AHhn+KKvhpRcDvgyJg==}
+
+  '@fontsource/oswald@5.1.1':
+    resolution: {integrity: sha512-MXymZDN08CJ4q/5+ur6u7YM3xcgPf6OXzUy7ngrRdGYXR9Oxal1A1m3FhFVLP5X0pWW6l2W1awC9YkTGWrbsXg==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -4826,6 +4838,10 @@ snapshots:
   '@eslint/plugin-kit@0.2.4':
     dependencies:
       levn: 0.4.1
+
+  '@fontsource-variable/noto-sans-jp@5.1.1': {}
+
+  '@fontsource/oswald@5.1.1': {}
 
   '@humanfs/core@0.19.1': {}
 

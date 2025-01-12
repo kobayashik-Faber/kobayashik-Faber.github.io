@@ -12,7 +12,24 @@ export default defineConfig({
 
   // Useful for theme customization
   theme: {
-    extend: {},
+    extend: {
+      tokens: {
+        fonts: {
+          NotoSansJP: {
+            value: "'Noto Sans JP Variable', sans-serif",
+          },
+          Oswald: {
+            value: 'Oswald, sans-serif',
+          },
+        },
+      },
+    },
+  },
+
+  globalCss: {
+    'html, body': {
+      fontFamily: "'Noto Sans JP Variable', sans-serif",
+    },
   },
 
   // The output directory for your css system
