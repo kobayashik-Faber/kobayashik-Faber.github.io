@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
 
     server: {
       fs: {
-        allow: ['styled-system'],
+        allow: ['styled-system', 'svelte-fa'],
       },
     },
   };
