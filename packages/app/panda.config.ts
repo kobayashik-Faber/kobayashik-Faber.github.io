@@ -14,6 +14,11 @@ export default defineConfig({
   theme: {
     extend: {
       tokens: {
+        colors: {
+          primary: {
+            value: '#89ff14',
+          },
+        },
         fonts: {
           NotoSansJP: {
             value: "'Noto Sans JP Variable', sans-serif",

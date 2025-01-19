@@ -6,6 +6,8 @@
   class={css({
     fontSize: '2xl',
     fontWeight: 'bold',
+    // bg: "red",
+    // minH: "200vh"
   })}
 >
   Hello 🐼!
