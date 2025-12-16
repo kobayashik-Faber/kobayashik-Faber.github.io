@@ -81,14 +81,16 @@
 
 	const carouselTrackStyles = css({
 		display: 'flex',
-		transition: 'transform 0.5s ease-in-out'
+		transition: 'transform 0.5s ease-in-out',
+		alignItems: 'stretch'
 	});
 
 	const slideContainerStyles = css({
 		flexShrink: 0,
 		paddingX: 'sm',
 		paddingY: 'xs',
-		display: 'flex'
+		display: 'flex',
+		height: '100%'
 	});
 
 	const cardStyles = css({
@@ -219,18 +221,32 @@
 		>
 			{#each posts as post, index}
 				<div class={slideContainerStyles} style="width: {100 / slidesPerView}%; flex: 0 0 {100 / slidesPerView}%;">
-					<article class={cardStyles} style="width: 100%; margin: 0 auto;">
-						<h3 class={cardTitleStyles}>
-							{post.title}
-						</h3>
-						<div class={cardMetaStyles}>
-							<time class={cardDateStyles}>{post.date}</time>
-							{#if post.isExternal}
-								<span class={externalBadgeStyles}>External</span>
-							{/if}
-						</div>
-						<p class={cardExcerptStyles}>{post.excerpt}</p>
-					</article>
+					{#if post.isExternal}
+						<a href={post.url} target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none; display: flex; width: 100%; height: 100%;">
+							<article class={cardStyles} style="width: 100%; margin: 0 auto; display: flex; flex-direction: column;">
+								<h3 class={cardTitleStyles}>
+									{post.title}
+								</h3>
+								<div class={cardMetaStyles}>
+									<time class={cardDateStyles}>{post.date}</time>
+									<span class={externalBadgeStyles}>External</span>
+								</div>
+								<p class={cardExcerptStyles} style="flex: 1;">{post.excerpt}</p>
+							</article>
+						</a>
+					{:else}
+						<a href="/blog/{post.slug}" style="color: inherit; text-decoration: none; display: flex; width: 100%; height: 100%;">
+							<article class={cardStyles} style="width: 100%; margin: 0 auto; display: flex; flex-direction: column;">
+								<h3 class={cardTitleStyles}>
+									{post.title}
+								</h3>
+								<div class={cardMetaStyles}>
+									<time class={cardDateStyles}>{post.date}</time>
+								</div>
+								<p class={cardExcerptStyles} style="flex: 1;">{post.excerpt}</p>
+							</article>
+						</a>
+					{/if}
 				</div>
 			{/each}
 		</div>
