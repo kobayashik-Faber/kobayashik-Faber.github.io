@@ -1,5 +1,5 @@
-import type { PageServerLoad } from './$types';
-import { getInternalBlogPost } from '$lib/blog/internal';
+import type { PageServerLoad, EntryGenerator } from './$types';
+import { getInternalBlogPost, getAllInternalBlogPosts } from '$lib/blog/internal';
 import { error } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -23,3 +23,10 @@ export const load: PageServerLoad = async ({ params }) => {
 		throw error(404, 'Blog post not found');
 	}
 };
+
+export const entries: EntryGenerator = async () => {
+	const posts = await getAllInternalBlogPosts();
+	return posts.map(post => ({ slug: post.slug }));
+};
+
+export const prerender = true;

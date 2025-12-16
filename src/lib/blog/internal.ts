@@ -214,25 +214,46 @@ export async function getInternalBlogPost(slug: string): Promise<{
 } | null> {
 	try {
 		const postsDirectory = join(process.cwd(), 'content', 'posts');
-		const filePath = join(postsDirectory, `${slug}.md`);
 		
-		const fileContent = readFileSync(filePath, 'utf8');
-		const { frontmatter, content } = parseFrontMatter(fileContent);
+		// 全ファイルを読んでslugが一致するものを探す
+		const filenames = readdirSync(postsDirectory);
+		const markdownFiles = filenames.filter(name => name.endsWith('.md'));
+		
+		let matchedFile = null;
+		let matchedFrontmatter = null;
+		let matchedContent = null;
+		
+		for (const filename of markdownFiles) {
+			const filePath = join(postsDirectory, filename);
+			const fileContent = readFileSync(filePath, 'utf8');
+			const { frontmatter, content } = parseFrontMatter(fileContent);
+			
+			if (frontmatter.slug === slug) {
+				matchedFile = filename;
+				matchedFrontmatter = frontmatter;
+				matchedContent = content;
+				break;
+			}
+		}
+		
+		if (!matchedFrontmatter || !matchedContent) {
+			return null;
+		}
 
 		const post: BlogPost = {
-			id: frontmatter.slug,
-			title: frontmatter.title,
-			excerpt: frontmatter.excerpt,
-			date: frontmatter.date,
-			url: `/blog/${frontmatter.slug}`,
-			slug: frontmatter.slug,
+			id: matchedFrontmatter.slug,
+			title: matchedFrontmatter.title,
+			excerpt: matchedFrontmatter.excerpt,
+			date: matchedFrontmatter.date,
+			url: `/blog/${matchedFrontmatter.slug}`,
+			slug: matchedFrontmatter.slug,
 			isExternal: false,
-			categories: frontmatter.categories || [],
+			categories: matchedFrontmatter.categories || [],
 			source: 'Internal',
-			tags: frontmatter.tags
+			tags: matchedFrontmatter.tags
 		};
 
-		const htmlContent = markdownToHtml(content);
+		const htmlContent = markdownToHtml(matchedContent);
 
 		return {
 			post,
@@ -263,3 +284,6 @@ export async function getInternalBlogPostsForEnvironment(): Promise<BlogPost[]> 
 	// クライアントサイドでは空配列（必要に応じてAPIエンドポイントから取得）
 	return [];
 }
+
+// エイリアス
+export const getAllInternalBlogPosts = getInternalBlogPosts;
