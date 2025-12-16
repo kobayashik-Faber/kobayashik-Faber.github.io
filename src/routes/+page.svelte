@@ -1,59 +1,64 @@
-<script>
-  import Counter from "./Counter.svelte";
-  import welcome from "$lib/images/svelte-welcome.webp";
-  import welcome_fallback from "$lib/images/svelte-welcome.png";
+<script lang="ts">
+	import { css } from 'styled-system/css';
+	import BlogCarousel from '$lib/components/BlogCarousel.svelte';
+	import type { PageData } from './$types';
+	
+	// サーバーから取得したデータを受け取り
+	let { data }: { data: PageData } = $props();
+
+	const heroStyles = css({
+		minHeight: '100vh',
+		backgroundColor: 'black',
+		color: 'white',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		paddingX: { base: 'lg', lg: '5xl' },
+		paddingY: '4xl'
+	});
+
+	const nameStyles = css({
+		fontSize: { base: '3xl', lg: '4xl' },
+		fontWeight: 'light',
+		letterSpacing: 'tight',
+		marginBottom: 'md'
+	});
+
+	const titleStyles = css({
+		fontSize: 'lg',
+		color: 'lightGrey',
+		letterSpacing: 'wide'
+	});
+
+	const blogSectionStyles = css({
+		backgroundColor: 'charcoal',
+		paddingY: '4xl',
+		paddingX: { base: 'lg', lg: '5xl' }
+	});
+
+	const sectionTitleStyles = css({
+		fontSize: '2xl',
+		color: 'white',
+		marginBottom: '2xl',
+		letterSpacing: 'wide'
+	});
+
 </script>
 
 <svelte:head>
-  <title>Home</title>
-  <meta name="description" content="Svelte demo app" />
+	<title>Kobayashi Kota - Portfolio</title>
+	<meta name="description" content="Product Engineer Portfolio" />
 </svelte:head>
 
-<section>
-  <h1>
-    <span class="welcome">
-      <picture>
-        <source srcset={welcome} type="image/webp" />
-        <img src={welcome_fallback} alt="Welcome" />
-      </picture>
-    </span>
-
-    to your new<br />SvelteKit app
-  </h1>
-
-  <h2>
-    try editing <strong>src/routes/+page.svelte</strong>
-  </h2>
-
-  <Counter />
+<!-- Hero Section -->
+<section class={heroStyles}>
+	<h1 class={nameStyles}>KOBAYASHI KOTA</h1>
+	<p class={titleStyles}>Product Engineer</p>
 </section>
 
-<style>
-  section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 0.6;
-  }
-
-  h1 {
-    width: 100%;
-  }
-
-  .welcome {
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding: 0 0 calc(100% * 495 / 2048) 0;
-  }
-
-  .welcome img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    display: block;
-  }
-</style>
+<!-- Blog Section -->
+<section class={blogSectionStyles}>
+	<h2 class={sectionTitleStyles}>LATEST ARTICLES</h2>
+	
+	<BlogCarousel posts={data.latestPosts} autoPlay={true} interval={6000} />
+</section>
