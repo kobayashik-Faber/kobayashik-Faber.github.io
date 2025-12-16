@@ -80,6 +80,9 @@
 		>
 			CONTACT FORM
 		</a>
+		
+		<!-- Placeholder anchor for the hash link -->
+		<div id="contact-form" style="position: absolute; visibility: hidden;"></div>
 
 		<p class={noteStyles}>
 			* フォームのリンクは後ほど設定されます
