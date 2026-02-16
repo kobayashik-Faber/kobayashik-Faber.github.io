@@ -1,38 +1,28 @@
-# create-svelte
+# kobayashik-Faber.github.io
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+![CI](https://github.com/kobayashik-Faber/kobayashik-Faber.github.io/actions/workflows/ci.yml/badge.svg)
 
-## Creating a project
+## Tech Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- [SvelteKit](https://kit.svelte.dev/) / [Svelte 5](https://svelte.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Panda CSS](https://panda-css.com/)
+- [Vite](https://vitejs.dev/)
+- [pnpm](https://pnpm.io/)
+- [GitHub Pages](https://pages.github.com/) (adapter-static)
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Setup
 
 ```bash
-npm run dev
+# Install dependencies
+pnpm install
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# Start development server
+pnpm dev
+
+# Type check
+pnpm check
+
+# Build for production
+pnpm build
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
