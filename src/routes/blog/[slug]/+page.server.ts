@@ -26,7 +26,9 @@ export const load: PageServerLoad = async ({ params }) => {
 
 export const entries: EntryGenerator = async () => {
 	const posts = await getAllInternalBlogPosts();
-	return posts.map(post => ({ slug: post.slug }));
+	return posts
+		.filter((post): post is typeof post & { slug: string } => typeof post.slug === 'string')
+		.map((post) => ({ slug: post.slug }));
 };
 
 export const prerender = true;
