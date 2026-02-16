@@ -1,35 +1,39 @@
 {
-	"name": "kobayashik-faber.github.io",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "pnpm panda && vite dev",
-		"build": "pnpm prebuild && pnpm panda && vite build",
-		"prebuild": "svelte-kit sync && tsx scripts/prebuild.ts",
-		"preview": "vite preview",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"panda": "panda",
-		"prepare": "svelte-kit sync && panda codegen"
-	},
-	"devDependencies": {
-		"@fontsource/fira-mono": "^5.2.7",
-		"@neoconfetti/svelte": "^2.2.2",
-		"@pandacss/dev": "^1.8.2",
-		"@sveltejs/adapter-auto": "^7.0.1",
-		"@sveltejs/adapter-static": "^3.0.10",
-		"@sveltejs/kit": "^2.52.0",
-		"@sveltejs/vite-plugin-svelte": "^6.2.4",
-		"mdsvex": "^0.12.6",
-		"svelte": "^5.51.2",
-		"svelte-check": "^4.4.0",
-		"tslib": "^2.8.1",
-		"tsx": "^4.21.0",
-		"typescript": "^5.9.3",
-		"vite": "^7.3.1"
-	},
-	"type": "module",
-	"dependencies": {
-		"@types/xml2js": "^0.4.14",
-		"xml2js": "^0.6.2"
-	}
+  "name": "kobayashik-faber.github.io",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "pnpm panda && vite dev",
+    "build": "pnpm prebuild && pnpm panda && vite build",
+    "prebuild": "svelte-kit sync && tsx scripts/prebuild.ts",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "panda": "panda",
+    "prepare": "svelte-kit sync && panda codegen"
+  },
+  "devDependencies": {
+    "@fontsource/fira-mono": "^5.2.7",
+    "@neoconfetti/svelte": "^2.2.2",
+    "@pandacss/dev": "^1.8.2",
+    "@sveltejs/adapter-auto": "^7.0.1",
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.52.0",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "mdsvex": "^0.12.6",
+    "prettier": "^3.8.1",
+    "prettier-plugin-svelte": "^3.4.1",
+    "svelte": "^5.51.2",
+    "svelte-check": "^4.4.0",
+    "tslib": "^2.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "type": "module",
+  "dependencies": {
+    "@types/xml2js": "^0.4.14",
+    "xml2js": "^0.6.2"
+  }
 }

@@ -1,10 +1,10 @@
 ---
-title: "Lorem Ipsum Consectetur Adipiscing"
-date: "2024-12-05"
-slug: "design-systems-guide"
-excerpt: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation."
-categories: ["Dolorem", "Magna"]
-tags: ["Tempor", "Incididunt", "Labore"]
+title: 'Lorem Ipsum Consectetur Adipiscing'
+date: '2024-12-05'
+slug: 'design-systems-guide'
+excerpt: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation.'
+categories: ['Dolorem', 'Magna']
+tags: ['Tempor', 'Incididunt', 'Labore']
 ---
 
 # Building Scalable Design Systems
