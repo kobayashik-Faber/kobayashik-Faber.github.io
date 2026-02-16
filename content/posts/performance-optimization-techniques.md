@@ -1,10 +1,10 @@
 ---
-title: "Reprehenderit Voluptate Esse Cillum"
-date: "2024-11-20"
-slug: "performance-optimization-techniques" 
-excerpt: "Fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit."
-categories: ["Pariatur", "Cupidatat"]
-tags: ["Proident", "Officia", "Deserunt"]
+title: 'Reprehenderit Voluptate Esse Cillum'
+date: '2024-11-20'
+slug: 'performance-optimization-techniques'
+excerpt: 'Fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit.'
+categories: ['Pariatur', 'Cupidatat']
+tags: ['Proident', 'Officia', 'Deserunt']
 ---
 
 # Web Performance Optimization Techniques
@@ -45,12 +45,12 @@ Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit la
 ### Lazy Loading Implementation
 
 ```html
-<img 
-  src="placeholder.jpg" 
-  data-src="actual-image.jpg" 
+<img
+  src="placeholder.jpg"
+  data-src="actual-image.jpg"
   loading="lazy"
   alt="Description"
->
+/>
 ```
 
 Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.

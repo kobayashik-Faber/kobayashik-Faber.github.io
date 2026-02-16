@@ -1,14 +1,14 @@
-import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
-import type { BlogPost } from '$lib/types';
+import {readFileSync, readdirSync} from 'fs';
+import {join} from 'path';
+import type {BlogPost} from '$lib/types';
 
 interface FrontMatter {
-	title: string;
-	date: string;
-	slug: string;
-	excerpt: string;
-	categories?: string[];
-	tags?: string[];
+  title: string;
+  date: string;
+  slug: string;
+  excerpt: string;
+  categories?: string[];
+  tags?: string[];
 }
 
 /**
@@ -16,121 +16,135 @@ interface FrontMatter {
  * @param content Markdownファイルの内容
  * @returns Frontmatterオブジェクトとコンテンツ
  */
-function parseFrontMatter(content: string): { frontmatter: FrontMatter; content: string } {
-	const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-	
-	if (!match) {
-		throw new Error('Invalid frontmatter format');
-	}
+function parseFrontMatter(content: string): {
+  frontmatter: FrontMatter;
+  content: string;
+} {
+  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
 
-	const frontmatterText = match[1];
-	const markdownContent = match[2];
+  if (!match) {
+    throw new Error('Invalid frontmatter format');
+  }
 
-	// 簡易YAML解析（基本的なkey: value形式のみ）
-	const frontmatter: Partial<FrontMatter> = {};
-	
-	frontmatterText.split('\n').forEach(line => {
-		const [key, ...valueParts] = line.split(':');
-		if (key && valueParts.length > 0) {
-			const value = valueParts.join(':').trim();
-			
-			// 配列の処理
-			if (value.startsWith('[') && value.endsWith(']')) {
-				const arrayValue = value.slice(1, -1)
-					.split(',')
-					.map(item => item.trim().replace(/['"]/g, ''));
-				frontmatter[key.trim() as keyof FrontMatter] = arrayValue as any;
-			} else {
-				// 文字列値の処理（クォートを除去）
-				frontmatter[key.trim() as keyof FrontMatter] = value.replace(/['"]/g, '') as any;
-			}
-		}
-	});
+  const frontmatterText = match[1];
+  const markdownContent = match[2];
 
-	// 必須フィールドの検証
-	if (!frontmatter.title || !frontmatter.date || !frontmatter.slug || !frontmatter.excerpt) {
-		throw new Error('Missing required frontmatter fields');
-	}
+  // 簡易YAML解析（基本的なkey: value形式のみ）
+  const frontmatter: Partial<FrontMatter> = {};
 
-	return {
-		frontmatter: frontmatter as FrontMatter,
-		content: markdownContent.trim()
-	};
+  frontmatterText.split('\n').forEach((line) => {
+    const [key, ...valueParts] = line.split(':');
+    if (key && valueParts.length > 0) {
+      const value = valueParts.join(':').trim();
+
+      // 配列の処理
+      if (value.startsWith('[') && value.endsWith(']')) {
+        const arrayValue = value
+          .slice(1, -1)
+          .split(',')
+          .map((item) => item.trim().replace(/['"]/g, ''));
+        frontmatter[key.trim() as keyof FrontMatter] = arrayValue as any;
+      } else {
+        // 文字列値の処理（クォートを除去）
+        frontmatter[key.trim() as keyof FrontMatter] = value.replace(
+          /['"]/g,
+          '',
+        ) as any;
+      }
+    }
+  });
+
+  // 必須フィールドの検証
+  if (
+    !frontmatter.title ||
+    !frontmatter.date ||
+    !frontmatter.slug ||
+    !frontmatter.excerpt
+  ) {
+    throw new Error('Missing required frontmatter fields');
+  }
+
+  return {
+    frontmatter: frontmatter as FrontMatter,
+    content: markdownContent.trim(),
+  };
 }
 
 /**
  * MarkdownからHTMLに変換（改良版）
- * @param markdown Markdownコンテンツ  
+ * @param markdown Markdownコンテンツ
  * @returns HTML文字列
  */
 function markdownToHtml(markdown: string): string {
-	// 行ごとに処理
-	const lines = markdown.split('\n');
-	const htmlLines: string[] = [];
-	let inCodeBlock = false;
-	let inList = false;
-	let codeBlockContent: string[] = [];
+  // 行ごとに処理
+  const lines = markdown.split('\n');
+  const htmlLines: string[] = [];
+  let inCodeBlock = false;
+  let inList = false;
+  let codeBlockContent: string[] = [];
 
-	for (let i = 0; i < lines.length; i++) {
-		const line = lines[i];
-		
-		// コードブロックの処理
-		if (line.startsWith('```')) {
-			if (inCodeBlock) {
-				// コードブロック終了
-				const language = lines[i - codeBlockContent.length - 1].slice(3);
-				const code = codeBlockContent.join('\n');
-				htmlLines.push(`<pre><code class="language-${language}">${escapeHtml(code)}</code></pre>`);
-				codeBlockContent = [];
-				inCodeBlock = false;
-			} else {
-				// コードブロック開始
-				inCodeBlock = true;
-			}
-			continue;
-		}
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
 
-		if (inCodeBlock) {
-			codeBlockContent.push(line);
-			continue;
-		}
+    // コードブロックの処理
+    if (line.startsWith('```')) {
+      if (inCodeBlock) {
+        // コードブロック終了
+        const language = lines[i - codeBlockContent.length - 1].slice(3);
+        const code = codeBlockContent.join('\n');
+        htmlLines.push(
+          `<pre><code class="language-${language}">${escapeHtml(code)}</code></pre>`,
+        );
+        codeBlockContent = [];
+        inCodeBlock = false;
+      } else {
+        // コードブロック開始
+        inCodeBlock = true;
+      }
+      continue;
+    }
 
-		// リストの処理
-		if (line.startsWith('- ')) {
-			if (!inList) {
-				htmlLines.push('<ul>');
-				inList = true;
-			}
-			const text = processInlineMarkdown(line.slice(2));
-			htmlLines.push(`<li>${text}</li>`);
-			continue;
-		} else if (inList) {
-			htmlLines.push('</ul>');
-			inList = false;
-		}
+    if (inCodeBlock) {
+      codeBlockContent.push(line);
+      continue;
+    }
 
-		// ヘッダーの処理
-		if (line.startsWith('### ')) {
-			htmlLines.push(`<h3>${processInlineMarkdown(line.slice(4))}</h3>`);
-		} else if (line.startsWith('## ')) {
-			htmlLines.push(`<h2>${processInlineMarkdown(line.slice(3))}</h2>`);
-		} else if (line.startsWith('# ')) {
-			htmlLines.push(`<h1>${processInlineMarkdown(line.slice(2))}</h1>`);
-		} else if (line.trim() === '') {
-			// 空行はそのまま
-			htmlLines.push('');
-		} else {
-			// 通常の段落
-			htmlLines.push(`<p>${processInlineMarkdown(line)}</p>`);
-		}
-	}
+    // リストの処理
+    if (line.startsWith('- ')) {
+      if (!inList) {
+        htmlLines.push('<ul>');
+        inList = true;
+      }
+      const text = processInlineMarkdown(line.slice(2));
+      htmlLines.push(`<li>${text}</li>`);
+      continue;
+    } else if (inList) {
+      htmlLines.push('</ul>');
+      inList = false;
+    }
 
-	// 最後にリストが開いている場合は閉じる
-	if (inList) {
-		htmlLines.push('</ul>');
-	}
+    // ヘッダーの処理
+    if (line.startsWith('### ')) {
+      htmlLines.push(`<h3>${processInlineMarkdown(line.slice(4))}</h3>`);
+    } else if (line.startsWith('## ')) {
+      htmlLines.push(`<h2>${processInlineMarkdown(line.slice(3))}</h2>`);
+    } else if (line.startsWith('# ')) {
+      htmlLines.push(`<h1>${processInlineMarkdown(line.slice(2))}</h1>`);
+    } else if (line.trim() === '') {
+      // 空行はそのまま
+      htmlLines.push('');
+    } else {
+      // 通常の段落
+      htmlLines.push(`<p>${processInlineMarkdown(line)}</p>`);
+    }
+  }
 
-	return htmlLines.join('\n');
+  // 最後にリストが開いている場合は閉じる
+  if (inList) {
+    htmlLines.push('</ul>');
+  }
+
+  return htmlLines.join('\n');
 }
 
 /**
@@ -139,13 +153,15 @@ function markdownToHtml(markdown: string): string {
  * @returns 処理済みHTML
  */
 function processInlineMarkdown(text: string): string {
-	return text
-		// インラインコード
-		.replace(/`([^`]+)`/g, '<code>$1</code>')
-		// ボールド
-		.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-		// イタリック
-		.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  return (
+    text
+      // インラインコード
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      // ボールド
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      // イタリック
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+  );
 }
 
 /**
@@ -154,12 +170,12 @@ function processInlineMarkdown(text: string): string {
  * @returns エスケープ済みテキスト
  */
 function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;')
-		.replace(/'/g, '&#39;');
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 /**
@@ -167,40 +183,41 @@ function escapeHtml(text: string): string {
  * @returns BlogPost配列
  */
 export async function getInternalBlogPosts(): Promise<BlogPost[]> {
-	try {
-		const postsDirectory = join(process.cwd(), 'content', 'posts');
-		const filenames = readdirSync(postsDirectory);
-		const markdownFiles = filenames.filter(name => name.endsWith('.md'));
+  try {
+    const postsDirectory = join(process.cwd(), 'content', 'posts');
+    const filenames = readdirSync(postsDirectory);
+    const markdownFiles = filenames.filter((name) => name.endsWith('.md'));
 
-		const posts = markdownFiles.map(filename => {
-			const filePath = join(postsDirectory, filename);
-			const fileContent = readFileSync(filePath, 'utf8');
-			
-			const { frontmatter } = parseFrontMatter(fileContent);
+    const posts = markdownFiles.map((filename) => {
+      const filePath = join(postsDirectory, filename);
+      const fileContent = readFileSync(filePath, 'utf8');
 
-			const blogPost: BlogPost = {
-				id: frontmatter.slug,
-				title: frontmatter.title,
-				excerpt: frontmatter.excerpt,
-				date: frontmatter.date,
-				url: `/blog/${frontmatter.slug}`,
-				slug: frontmatter.slug,
-				isExternal: false,
-				categories: frontmatter.categories || [],
-				source: 'Internal',
-				tags: frontmatter.tags
-			};
+      const {frontmatter} = parseFrontMatter(fileContent);
 
-			return blogPost;
-		});
+      const blogPost: BlogPost = {
+        id: frontmatter.slug,
+        title: frontmatter.title,
+        excerpt: frontmatter.excerpt,
+        date: frontmatter.date,
+        url: `/blog/${frontmatter.slug}`,
+        slug: frontmatter.slug,
+        isExternal: false,
+        categories: frontmatter.categories || [],
+        source: 'Internal',
+        tags: frontmatter.tags,
+      };
 
-		// 日付順（新しい順）でソート
-		return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      return blogPost;
+    });
 
-	} catch (error) {
-		console.error('Error reading internal blog posts:', error);
-		return [];
-	}
+    // 日付順（新しい順）でソート
+    return posts.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    );
+  } catch (error) {
+    console.error('Error reading internal blog posts:', error);
+    return [];
+  }
 }
 
 /**
@@ -209,61 +226,60 @@ export async function getInternalBlogPosts(): Promise<BlogPost[]> {
  * @returns 記事データとHTMLコンテンツ
  */
 export async function getInternalBlogPost(slug: string): Promise<{
-	post: BlogPost;
-	content: string;
+  post: BlogPost;
+  content: string;
 } | null> {
-	try {
-		const postsDirectory = join(process.cwd(), 'content', 'posts');
-		
-		// 全ファイルを読んでslugが一致するものを探す
-		const filenames = readdirSync(postsDirectory);
-		const markdownFiles = filenames.filter(name => name.endsWith('.md'));
-		
-		let matchedFile = null;
-		let matchedFrontmatter = null;
-		let matchedContent = null;
-		
-		for (const filename of markdownFiles) {
-			const filePath = join(postsDirectory, filename);
-			const fileContent = readFileSync(filePath, 'utf8');
-			const { frontmatter, content } = parseFrontMatter(fileContent);
-			
-			if (frontmatter.slug === slug) {
-				matchedFile = filename;
-				matchedFrontmatter = frontmatter;
-				matchedContent = content;
-				break;
-			}
-		}
-		
-		if (!matchedFrontmatter || !matchedContent) {
-			return null;
-		}
+  try {
+    const postsDirectory = join(process.cwd(), 'content', 'posts');
 
-		const post: BlogPost = {
-			id: matchedFrontmatter.slug,
-			title: matchedFrontmatter.title,
-			excerpt: matchedFrontmatter.excerpt,
-			date: matchedFrontmatter.date,
-			url: `/blog/${matchedFrontmatter.slug}`,
-			slug: matchedFrontmatter.slug,
-			isExternal: false,
-			categories: matchedFrontmatter.categories || [],
-			source: 'Internal',
-			tags: matchedFrontmatter.tags
-		};
+    // 全ファイルを読んでslugが一致するものを探す
+    const filenames = readdirSync(postsDirectory);
+    const markdownFiles = filenames.filter((name) => name.endsWith('.md'));
 
-		const htmlContent = markdownToHtml(matchedContent);
+    let matchedFile = null;
+    let matchedFrontmatter = null;
+    let matchedContent = null;
 
-		return {
-			post,
-			content: htmlContent
-		};
+    for (const filename of markdownFiles) {
+      const filePath = join(postsDirectory, filename);
+      const fileContent = readFileSync(filePath, 'utf8');
+      const {frontmatter, content} = parseFrontMatter(fileContent);
 
-	} catch (error) {
-		console.error(`Error reading blog post "${slug}":`, error);
-		return null;
-	}
+      if (frontmatter.slug === slug) {
+        matchedFile = filename;
+        matchedFrontmatter = frontmatter;
+        matchedContent = content;
+        break;
+      }
+    }
+
+    if (!matchedFrontmatter || !matchedContent) {
+      return null;
+    }
+
+    const post: BlogPost = {
+      id: matchedFrontmatter.slug,
+      title: matchedFrontmatter.title,
+      excerpt: matchedFrontmatter.excerpt,
+      date: matchedFrontmatter.date,
+      url: `/blog/${matchedFrontmatter.slug}`,
+      slug: matchedFrontmatter.slug,
+      isExternal: false,
+      categories: matchedFrontmatter.categories || [],
+      source: 'Internal',
+      tags: matchedFrontmatter.tags,
+    };
+
+    const htmlContent = markdownToHtml(matchedContent);
+
+    return {
+      post,
+      content: htmlContent,
+    };
+  } catch (error) {
+    console.error(`Error reading blog post "${slug}":`, error);
+    return null;
+  }
 }
 
 /**
@@ -271,18 +287,20 @@ export async function getInternalBlogPost(slug: string): Promise<{
  * @returns サーバーサイドかどうか
  */
 function isServerSide(): boolean {
-	return typeof window === 'undefined';
+  return typeof window === 'undefined';
 }
 
 /**
  * ビルド時環境に応じた内部記事取得
  */
-export async function getInternalBlogPostsForEnvironment(): Promise<BlogPost[]> {
-	if (isServerSide()) {
-		return await getInternalBlogPosts();
-	}
-	// クライアントサイドでは空配列（必要に応じてAPIエンドポイントから取得）
-	return [];
+export async function getInternalBlogPostsForEnvironment(): Promise<
+  BlogPost[]
+> {
+  if (isServerSide()) {
+    return await getInternalBlogPosts();
+  }
+  // クライアントサイドでは空配列（必要に応じてAPIエンドポイントから取得）
+  return [];
 }
 
 // エイリアス

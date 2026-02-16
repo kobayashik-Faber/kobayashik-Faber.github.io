@@ -1,33 +1,32 @@
-import type { BlogPost } from '$lib/types';
-import { getBlogPostsForEnvironment } from '$lib/data/staticBlogData';
-import { getInternalBlogPostsForEnvironment } from '$lib/blog/internal';
+import type {BlogPost} from '$lib/types';
+import {getBlogPostsForEnvironment} from '$lib/data/staticBlogData';
+import {getInternalBlogPostsForEnvironment} from '$lib/blog/internal';
 
 /**
  * 内部記事と外部記事（はてなブログ）を統合して取得
  * @returns 統合された BlogPost 配列（日付順）
  */
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
-	try {
-		// 内部記事と外部記事を並行取得
-		const [internalPosts, externalPosts] = await Promise.all([
-			getInternalBlogPostsForEnvironment(),
-			getBlogPostsForEnvironment()
-		]);
+  try {
+    // 内部記事と外部記事を並行取得
+    const [internalPosts, externalPosts] = await Promise.all([
+      getInternalBlogPostsForEnvironment(),
+      getBlogPostsForEnvironment(),
+    ]);
 
-		// 記事を統合
-		const allPosts = [...internalPosts, ...externalPosts];
+    // 記事を統合
+    const allPosts = [...internalPosts, ...externalPosts];
 
-		// 日付順（新しい順）でソート
-		return allPosts.sort((a, b) => {
-			const dateA = new Date(a.date);
-			const dateB = new Date(b.date);
-			return dateB.getTime() - dateA.getTime();
-		});
-
-	} catch (error) {
-		console.error('Error aggregating blog posts:', error);
-		return [];
-	}
+    // 日付順（新しい順）でソート
+    return allPosts.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+  } catch (error) {
+    console.error('Error aggregating blog posts:', error);
+    return [];
+  }
 }
 
 /**
@@ -35,9 +34,11 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
  * @param count 取得件数（デフォルト: 5）
  * @returns 最新の BlogPost 配列
  */
-export async function getLatestBlogPosts(count: number = 5): Promise<BlogPost[]> {
-	const allPosts = await getAllBlogPosts();
-	return allPosts.slice(0, count);
+export async function getLatestBlogPosts(
+  count: number = 5,
+): Promise<BlogPost[]> {
+  const allPosts = await getAllBlogPosts();
+  return allPosts.slice(0, count);
 }
 
 /**
@@ -47,14 +48,14 @@ export async function getLatestBlogPosts(count: number = 5): Promise<BlogPost[]>
  * @returns フィルタリングされた BlogPost 配列
  */
 export function filterPostsByType(
-	posts: BlogPost[], 
-	isExternal?: boolean
+  posts: BlogPost[],
+  isExternal?: boolean,
 ): BlogPost[] {
-	if (isExternal === undefined) {
-		return posts;
-	}
-	
-	return posts.filter(post => post.isExternal === isExternal);
+  if (isExternal === undefined) {
+    return posts;
+  }
+
+  return posts.filter((post) => post.isExternal === isExternal);
 }
 
 /**
@@ -64,14 +65,14 @@ export function filterPostsByType(
  * @returns フィルタリングされた BlogPost 配列
  */
 export function filterPostsByCategory(
-	posts: BlogPost[], 
-	category: string
+  posts: BlogPost[],
+  category: string,
 ): BlogPost[] {
-	return posts.filter(post => 
-		post.categories?.some(cat => 
-			cat.toLowerCase().includes(category.toLowerCase())
-		)
-	);
+  return posts.filter((post) =>
+    post.categories?.some((cat) =>
+      cat.toLowerCase().includes(category.toLowerCase()),
+    ),
+  );
 }
 
 /**
@@ -80,17 +81,13 @@ export function filterPostsByCategory(
  * @param keyword 検索キーワード
  * @returns マッチした BlogPost 配列
  */
-export function searchPosts(
-	posts: BlogPost[], 
-	keyword: string
-): BlogPost[] {
-	const lowerKeyword = keyword.toLowerCase();
-	
-	return posts.filter(post => 
-		post.title.toLowerCase().includes(lowerKeyword) ||
-		post.excerpt.toLowerCase().includes(lowerKeyword) ||
-		post.categories?.some(cat => 
-			cat.toLowerCase().includes(lowerKeyword)
-		)
-	);
+export function searchPosts(posts: BlogPost[], keyword: string): BlogPost[] {
+  const lowerKeyword = keyword.toLowerCase();
+
+  return posts.filter(
+    (post) =>
+      post.title.toLowerCase().includes(lowerKeyword) ||
+      post.excerpt.toLowerCase().includes(lowerKeyword) ||
+      post.categories?.some((cat) => cat.toLowerCase().includes(lowerKeyword)),
+  );
 }

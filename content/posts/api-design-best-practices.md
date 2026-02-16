@@ -1,10 +1,10 @@
 ---
-title: "Perspiciatis Unde Omnis Iste Natus"
-date: "2024-11-15"
-slug: "api-design-best-practices"
-excerpt: "Error sit voluptatem accusantium doloremque laudantium totam rem aperiam eaque ipsa quae ab illo inventore."
-categories: ["Accusantium", "Laudantium"]
-tags: ["Aperiam", "Inventore", "Veritatis", "Beatae"]
+title: 'Perspiciatis Unde Omnis Iste Natus'
+date: '2024-11-15'
+slug: 'api-design-best-practices'
+excerpt: 'Error sit voluptatem accusantium doloremque laudantium totam rem aperiam eaque ipsa quae ab illo inventore.'
+categories: ['Accusantium', 'Laudantium']
+tags: ['Aperiam', 'Inventore', 'Veritatis', 'Beatae']
 ---
 
 # RESTful API Design Best Practices

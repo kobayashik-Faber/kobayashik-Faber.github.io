@@ -1,10 +1,10 @@
 ---
-title: "Lorem Ipsum Dolorem Magna"
-date: "2024-12-10"
-slug: "modern-web-development"
-excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-categories: ["Lorem", "Ipsum"]
-tags: ["Consectetur", "Adipiscing", "Elit"]
+title: 'Lorem Ipsum Dolorem Magna'
+date: '2024-12-10'
+slug: 'modern-web-development'
+excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+categories: ['Lorem', 'Ipsum']
+tags: ['Consectetur', 'Adipiscing', 'Elit']
 ---
 
 # Modern Web Development Practices
@@ -20,7 +20,7 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
 
 ```javascript
-function Component({ children, ...props }) {
+function Component({children, ...props}) {
   return (
     <div className="component" {...props}>
       {children}
@@ -34,7 +34,7 @@ function Component({ children, ...props }) {
 Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
 
 - Code splitting and lazy loading
-- Image optimization techniques  
+- Image optimization techniques
 - Bundle size analysis
 - Performance monitoring
 

@@ -1,10 +1,10 @@
 ---
-title: "Ut Enim Minim Veniam Exercitation"
-date: "2024-11-28"
-slug: "typescript-advanced-patterns"
-excerpt: "Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor."
-categories: ["Veniam", "Ullamco"]
-tags: ["Laboris", "Aliquip", "Commodo"]
+title: 'Ut Enim Minim Veniam Exercitation'
+date: '2024-11-28'
+slug: 'typescript-advanced-patterns'
+excerpt: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor.'
+categories: ['Veniam', 'Ullamco']
+tags: ['Laboris', 'Aliquip', 'Commodo']
 ---
 
 # Advanced TypeScript Patterns for Better Code
@@ -20,7 +20,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 ```typescript
 type IsArray<T> = T extends any[] ? true : false;
 type Result1 = IsArray<string[]>; // true
-type Result2 = IsArray<string>;   // false
+type Result2 = IsArray<string>; // false
 ```
 
 Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
