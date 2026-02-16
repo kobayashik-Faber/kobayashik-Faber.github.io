@@ -8,7 +8,8 @@
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"panda": "panda"
+		"panda": "panda",
+		"prepare": "svelte-kit sync && panda codegen"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",

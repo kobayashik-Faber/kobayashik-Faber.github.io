@@ -114,9 +114,7 @@
 		marginBottom: 'sm',
 		color: 'white',
 		lineHeight: 'tight',
-		display: '-webkit-box',
-		WebkitBoxOrient: 'vertical',
-		WebkitLineClamp: '2',
+		lineClamp: 2,
 		overflow: 'hidden'
 	});
 
@@ -145,9 +143,7 @@
 		fontSize: 'sm',
 		color: 'lightGrey',
 		lineHeight: 'normal',
-		display: '-webkit-box',
-		WebkitBoxOrient: 'vertical',
-		WebkitLineClamp: '3',
+		lineClamp: 3,
 		overflow: 'hidden'
 	});
 
