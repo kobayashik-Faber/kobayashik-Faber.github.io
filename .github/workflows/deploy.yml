@@ -3,10 +3,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: 'main'
+  workflow_dispatch:
 
 jobs:
   build_site:
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch' || github.actor == 'kobayashik-Faber'
     steps:
       - name: Checkout
         uses: actions/checkout@v6
