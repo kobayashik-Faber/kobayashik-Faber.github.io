@@ -1,0 +1,48 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: ⬆️
+    labels:
+      - dependencies
+    groups:
+      svelte:
+        patterns:
+          - svelte
+          - '@sveltejs/*'
+          - svelte-check
+          - prettier-plugin-svelte
+          - mdsvex
+      vite:
+        patterns:
+          - vite
+      panda:
+        patterns:
+          - '@pandacss/*'
+      prettier:
+        patterns:
+          - prettier
+      typescript-tooling:
+        patterns:
+          - typescript
+          - tslib
+          - tsx
+          - '@types/*'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ⬆️
+    labels:
+      - dependencies
+      - github-actions
+    groups:
+      actions:
+        patterns:
+          - '*'
