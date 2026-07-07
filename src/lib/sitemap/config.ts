@@ -33,7 +33,13 @@ export const STATIC_ROUTES = ['/', '/about', '/blog', '/contact'] as const;
  *   'https://example.com/sitemap.xml'
  *
  * ここに 1 行追加するだけで /sitemap.xml（index）へ反映される。
+ *
+ * 注意）sitemap index は別の index を入れ子にできない（sitemaps.org 仕様）。
+ * 参照先が index（例: Astro の sitemap-index.xml）の場合は、その index が
+ * 指す leaf の urlset（例: sitemap-0.xml）を直接指定すること。
  */
 export const EXTERNAL_SITEMAPS: readonly string[] = [
-  // `${SITE_URL}/subdir/sitemap.xml`,
+  // testing-sites/astro（別リポジトリ・サブディレクトリ運用）。
+  // sitemap-index.xml ではなく、それが指す leaf の urlset を参照する。
+  `${SITE_URL}/testing-sites/astro/sitemap-0.xml`,
 ];
