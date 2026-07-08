@@ -44,19 +44,3 @@ export function renderUrlset(entries: SitemapEntry[]): string {
 ${urls}
 </urlset>`;
 }
-
-/**
- * 複数の sitemap を束ねる sitemap index（<sitemapindex>）を生成する
- * @param sitemapUrls 束ねる sitemap の絶対 URL 配列
- * @returns sitemapindex 形式の XML 文字列
- */
-export function renderSitemapIndex(sitemapUrls: readonly string[]): string {
-  const sitemaps = sitemapUrls
-    .map((loc) => `  <sitemap>\n    <loc>${escapeXml(loc)}</loc>\n  </sitemap>`)
-    .join('\n');
-
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemaps}
-</sitemapindex>`;
-}

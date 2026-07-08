@@ -3,3 +3,4 @@ User-agent: *
 Disallow:
 
 Sitemap: https://kobayashik-faber.github.io/sitemap.xml
+Sitemap: https://kobayashik-faber.github.io/testing-sites/astro/sitemap-index.xml
