@@ -16,7 +16,7 @@
   "devDependencies": {
     "@fontsource/fira-mono": "5.2.7",
     "@neoconfetti/svelte": "2.2.2",
-    "@pandacss/dev": "1.11.1",
+    "@pandacss/dev": "1.11.4",
     "@sveltejs/adapter-auto": "7.0.1",
     "@sveltejs/adapter-static": "3.0.10",
     "@sveltejs/kit": "2.61.1",
